@@ -1,0 +1,17 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=username
+      - POSTGRES_DB=spring_db
+      - PGDATA=/data/postgres
+    volumes:
+      - postgres:/data/postgres
+    restart: always
+
+volumes:
+  postgres:
