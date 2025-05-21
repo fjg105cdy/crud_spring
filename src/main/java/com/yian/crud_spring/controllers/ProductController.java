@@ -33,5 +33,10 @@ public class ProductController {
     }
 
     //특정(id) 프로덕트를 가져오는 API
+    @GetMapping("/{productID}")
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable String productID) {
+        ProductResponseDTO product = productService.getProductById(productID);
+        return ResponseEntity.ok(product);
 
+    }
 }
