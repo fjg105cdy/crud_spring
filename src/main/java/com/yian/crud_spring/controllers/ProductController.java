@@ -39,4 +39,13 @@ public class ProductController {
         return ResponseEntity.ok(product);
 
     }
+
+    //특정 (id) 프로덕트 삭제하는 API
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<String> deleteProductById(@PathVariable String productId) {
+        productService.deleteProductById(productId);
+        return ResponseEntity.ok("deleted product");
+    }
+
+
 }
