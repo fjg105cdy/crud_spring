@@ -55,8 +55,30 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDTO updateProduct(String productId, ProductDTO productDTO) {
-        return null;
+        //대상자 찾기
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new RuntimeException("Product with id"+productId+"not found"));
+
+        //업데이트를 했는데 이름 같은지 확인
+        if (!product.getName().equals(productDTO.getName()) && productRepository.existsByName(productDTO.getName())) {
+            throw new RuntimeException("Product with name"+productDTO.getName()+"already exists");
+        }
+
+
+        //update product details
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setProductImg(productDTO.getProductImg());
+
+
+        // save product
+        Product updatedProduct = productRepository.save(product);
+        return ProductMapper.mapToProductResponseDTO(updatedProduct);
     }
+
+
+
 
     @Override
     public void deleteProductById(String productId) {

@@ -20,11 +20,12 @@ public class ProductController {
 
     //Product를 생성하는 API
     @PostMapping("/create")
-    public ResponseEntity<ProductResponseDTO> create( @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductDTO productDTO) {
         ProductResponseDTO savedProduct = productService.createProduct(productDTO);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
-//프로덕트 테이블에 있는 데이터를 모두 가져오는 api
+
+    //프로덕트 테이블에 있는 데이터를 모두 가져오는 api
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         List<ProductResponseDTO> products = productService.getAllProducts();
@@ -47,5 +48,13 @@ public class ProductController {
         return ResponseEntity.ok("deleted product");
     }
 
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductResponseDTO> updateProduct(
+            @PathVariable String productId,//수정할 대상
+            @RequestBody ProductDTO productDTO//수정할 내용
+    ){
+        ProductResponseDTO updatedProduct = productService.updateProduct(productId, productDTO);
+        return ResponseEntity.ok(updatedProduct);
 
+    }
 }
