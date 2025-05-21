@@ -22,7 +22,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDTO createProduct(ProductDTO productDTO) {
-        return null;
+    //기존의 상품이름과 같은 데이터 있는지 확인
+        if (productRepository.existsByName(productDTO.getName())) {
+            throw new RuntimeException("Product with name"+productDTO.getName()+"already exists");
+
+        }
+        // Convert DTO to Entity
+        Product product = ProductMapper.mapToProductEntity(productDTO);
+        //save to product
+        Product savedProduct=productRepository.save(product);
+
+        // convert Entity to ResponseDTO
+        return ProductMapper.mapToProductResponseDTO(savedProduct);
     }
 //전체 product data 가져오는 logic
     @Override
@@ -45,8 +56,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(String productId) {
-
+        
     }
+
+
 }
 
 //entity-> repository -> service(service->service impl)-> controller(request 정의)

@@ -1,8 +1,6 @@
 package com.yian.crud_spring.dtos;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 
@@ -23,7 +21,7 @@ public class ProductDTO {
     private String description;
 
     @NotBlank(message="Price is required")
-    private Long price;
+    private String price;
 
     private String productImg;
 }

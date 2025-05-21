@@ -25,7 +25,7 @@ public class Product {
     private String description;
 
     @Column(name = "PRICE", nullable = false)
-    private Long price;
+    private String price;
 
     @Column(name = "PRODUCTIMG")
     private String productImg;
