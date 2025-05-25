@@ -1,5 +1,6 @@
 package com.yian.crud_spring.controllers;
 
+import com.yian.crud_spring.dtos.PageResponseDTO;
 import com.yian.crud_spring.dtos.ProductDTO;
 import com.yian.crud_spring.dtos.ProductResponseDTO;
 import com.yian.crud_spring.entities.Product;
@@ -32,6 +33,19 @@ public class ProductController {
         return ResponseEntity.ok(products);
 
     }
+
+    @GetMapping ("/pagination")
+    public ResponseEntity<PageResponseDTO> getProductsWithPagination(
+            @RequestParam(defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue="name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir
+
+    ){
+        PageResponseDTO pageResponseDTO=productService.getProductsWithPagination(pageNo, pageSize, sortBy, sortDir);
+        return ResponseEntity.ok(pageResponseDTO);
+    }
+
 
     //특정(id) 프로덕트를 가져오는 API
     @GetMapping("/{productID}")

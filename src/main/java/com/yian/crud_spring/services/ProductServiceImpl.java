@@ -1,6 +1,7 @@
 package com.yian.crud_spring.services;
 
 
+import com.yian.crud_spring.dtos.PageResponseDTO;
 import com.yian.crud_spring.dtos.ProductDTO;
 import com.yian.crud_spring.dtos.ProductResponseDTO;
 import com.yian.crud_spring.entities.Product;
@@ -9,6 +10,10 @@ import com.yian.crud_spring.mappers.ProductMapper;
 import com.yian.crud_spring.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -86,6 +91,38 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(()-> new ResourceNotfoundException("product","id",productId));
         productRepository.delete(product);
+    }
+
+    @Override
+    public PageResponseDTO getProductsWithPagination(
+            int pageNo,
+            int pageSize,
+            String sortBy,
+            String sortDir
+    ) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
+
+        Page<Product> products = productRepository.findAll(pageable);
+
+        List<ProductResponseDTO> productResponseDTOS = products
+                .getContent()
+                .stream()
+                .map(ProductMapper::mapToProductResponseDTO)
+                .collect(Collectors.toList());
+
+        return PageResponseDTO.builder()
+                .body(productResponseDTOS)
+                .totalElements(products.getTotalElements())
+                .totalPages(products.getTotalPages())
+                .hasNextPage(products.hasNext())
+                .hasPreviousPage(products.hasPrevious())
+                .pageNo(products.getNumber())
+                .pageSize(products.getSize())
+                .build();
     }
 
 
