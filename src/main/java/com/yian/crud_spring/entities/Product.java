@@ -1,5 +1,6 @@
 package com.yian.crud_spring.entities;
 
+import com.yian.crud_spring.common.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +15,10 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @Table(name="PRODUCTS")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class Product extends AbstractEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.UUID)
+//    private String id;
     @Column(name = "NAME", nullable = false)
     private String name;
 
