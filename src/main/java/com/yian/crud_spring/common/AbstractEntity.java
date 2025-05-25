@@ -26,11 +26,11 @@ public abstract class AbstractEntity {
     private String id;
 
     @CreatedDate
-    @Column(updatable=false,nullable=false)
+    @Column()
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(insertable=false)
+    @Column()
     private LocalDateTime updatedAt;
 
 }

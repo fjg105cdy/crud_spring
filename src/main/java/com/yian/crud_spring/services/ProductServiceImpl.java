@@ -4,6 +4,7 @@ package com.yian.crud_spring.services;
 import com.yian.crud_spring.dtos.ProductDTO;
 import com.yian.crud_spring.dtos.ProductResponseDTO;
 import com.yian.crud_spring.entities.Product;
+import com.yian.crud_spring.exceptions.ResourceNotfoundException;
 import com.yian.crud_spring.mappers.ProductMapper;
 import com.yian.crud_spring.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDTO getProductById(String productId) {
 
        Product product = productRepository.findById(productId)
-               .orElseThrow(()-> new RuntimeException("Product with id"+productId+"not found"));
+               .orElseThrow(()-> new ResourceNotfoundException("product","id",productId));
        return ProductMapper.mapToProductResponseDTO(product);
 
     }
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDTO updateProduct(String productId, ProductDTO productDTO) {
         //대상자 찾기
         Product product = productRepository.findById(productId)
-                .orElseThrow(()-> new RuntimeException("Product with id"+productId+"not found"));
+                .orElseThrow(()-> new ResourceNotfoundException("product","id",productId));
 
         //업데이트를 했는데 이름 같은지 확인
         if (!product.getName().equals(productDTO.getName()) && productRepository.existsByName(productDTO.getName())) {
@@ -83,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(String productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(()-> new RuntimeException("Product with id"+productId+"not found"));
+                .orElseThrow(()-> new ResourceNotfoundException("product","id",productId));
         productRepository.delete(product);
     }
 
