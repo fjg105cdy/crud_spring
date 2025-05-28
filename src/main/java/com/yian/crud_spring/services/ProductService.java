@@ -18,5 +18,5 @@ public interface ProductService {
     //결과값의 형태 (Product의 형태) -> id,price,etc. createProduct -> 함수이름,()->매개변수, 수정할 대상&내용
 
     //pagination 전체 데이터 가져오기
-    PageResponseDTO getProductsWithPagination(int pageNo, int pageSize, String sortBy, String sortDir);
+    PageResponseDTO getProductsWithPagination(int pageNo, int pageSize, String sortBy, String sortDir, String searchKeyword);
 }

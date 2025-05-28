@@ -98,7 +98,8 @@ public class ProductServiceImpl implements ProductService {
             int pageNo,
             int pageSize,
             String sortBy,
-            String sortDir
+            String sortDir,
+            String searchKeyword
     ) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortBy).ascending()
@@ -106,7 +107,18 @@ public class ProductServiceImpl implements ProductService {
 
         Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
 
-        Page<Product> products = productRepository.findAll(pageable);
+        //Page<Product> products = productRepository.findAll(pageable);
+
+        Page<Product> products;
+        //검색어가 있을때와 없을때 분기 처리
+
+        if (searchKeyword == null||searchKeyword.trim().isEmpty()){
+            products=productRepository.findAll(pageable);
+        } else{
+            //검색어가 입력되어 있다면
+            products=productRepository.findByNameContainingIgnoreCase(searchKeyword, pageable);
+
+        }
 
         List<ProductResponseDTO> productResponseDTOS = products
                 .getContent()

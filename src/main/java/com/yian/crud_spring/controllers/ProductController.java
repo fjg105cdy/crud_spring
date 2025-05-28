@@ -39,10 +39,11 @@ public class ProductController {
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue="name") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDir
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String searchKeyword
 
     ){
-        PageResponseDTO pageResponseDTO=productService.getProductsWithPagination(pageNo, pageSize, sortBy, sortDir);
+        PageResponseDTO pageResponseDTO=productService.getProductsWithPagination(pageNo, pageSize, sortBy, sortDir,searchKeyword);
         return ResponseEntity.ok(pageResponseDTO);
     }
 
