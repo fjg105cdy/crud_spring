@@ -35,13 +35,13 @@ public class ProductServiceImpl implements ProductService {
         }
         // Convert DTO to Entity
         Product product = ProductMapper.mapToProductEntity(productDTO);
-        //save to product
+        //save to products
         Product savedProduct=productRepository.save(product);
 
         // convert Entity to ResponseDTO
         return ProductMapper.mapToProductResponseDTO(savedProduct);
     }
-//전체 product data 가져오는 logic
+//전체 product data 가져오는 logics
     @Override
     public List<ProductResponseDTO> getAllProducts() {
         List<Product> products = productRepository.findAll(); //products table에 있는 모든 정보 가져옴;type;products

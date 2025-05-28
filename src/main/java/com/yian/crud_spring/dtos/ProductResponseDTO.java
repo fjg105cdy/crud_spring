@@ -3,6 +3,8 @@ package com.yian.crud_spring.dtos;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,5 +18,6 @@ public class ProductResponseDTO {
     private String description;
     private String price;
     private String productImg;
+    private LocalDateTime createdAt;
 
 }
